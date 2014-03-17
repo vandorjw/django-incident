@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Incident: {{object}}{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+        <p><strong>Incident: {{object}}</strong></p>
+      </div>
+      <table class="table">
+      <tr>
+        <td><strong>Date and Time</strong></td>
+        <td>{{ object.date_time }}</td>
+      </tr>
+      <tr>
+        <td><strong>Severity</strong></td>
+        <td>{{ object.get_severity_level }}</td>
+      </tr>
+      <tr>
+        <td><strong>Resolved:</strong></td>
+        <td>{{ object.is_resolved }}</td>
+      </tr>
+      <tr>
+        <td><strong>Description</strong></td>
+        <td>{{ object.text }}</td>
+      </tr>
+      </table>
+    </div><!--./panel (Incident Details)-->
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+        <p><strong>Updates</strong></p>
+      </div>
+      <!-- Table -->
+      <table class="table">
+      <tr>
+        <th>Date and Time</th>
+        <th>Details</th>
+      </tr>
+      {% for update in object.update_set.all %}
+      <tr>
+        <td>{{ update.date_time }}</td>
+        <td>{{ update.text }}</td>
+      </tr>
+      {% endfor %}
+      </table>
+      <hr />
+      <a class="btn btn-danger hidden-print" href="{% url 'incident:incident_update' pk=object.id %}">Update Incident</a>
+    </div><!--./panel (Updates)-->
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <p><strong>Affected Items</strong></p>
+      </div>
+      <table class="table">
+      <tr>
+        <th>Object Type</th>
+        <th>Object Details</th>
+      </tr>
+
+      {% for amodel in object.amodel_set.all %}
+      <tr>
+        <td>Object Type</td>
+        <td><a class="btn btn-primary btn-block" href="{{ amodel.get_absolute_url }}">{{ amodel }}</a></td>
+      </tr>
+      {% endfor %}
+
+      </table>
+    </div><!--./panel (Affected Items)-->
+  </div><!--./col-md-12-->
+
+</div><!--./row-->
+</div>
+
+{% endblock content %}
