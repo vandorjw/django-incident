@@ -6,7 +6,7 @@
         <h1>Incident: {{ object }}</h1>
         <form action="." method="post">{% csrf_token %}
             <div>
-                {{ form|crispy }}
+                {{ form }}
             </div>
             <fieldset>
                 <legend>Update</legend>
@@ -14,9 +14,7 @@
                 {{ update_form.non_form_errors }}
                 {% for form in update_form %}
                     {{ form.id }}
-                    <div class="inline {{ update_form.prefix }}">
-                        {{ form }}
-                    </div>
+                    {{ form }}
                 {% endfor %}
             </fieldset>
             <hr />
